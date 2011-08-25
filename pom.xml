@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.pccsoft</groupId>
 	<artifactId>pcc</artifactId>
@@ -42,29 +44,29 @@
 	<repositories>
 		<!-- JBoss Repository used for Java EE 6 pieces -->
 		<repository>
-    		<id>opencastproject</id>
-    		<name>opencastproject repository</name>
-    		<url>http://repository.opencastproject.org/nexus/content/repositories/</url>
-    	</repository>
-    
+			<id>opencastproject</id>
+			<name>opencastproject repository</name>
+			<url>http://repository.opencastproject.org/nexus/content/repositories/</url>
+		</repository>
+
 		<repository>
 			<id>repository.jboss.org</id>
 			<name>JBoss Repository</name>
 			<url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
 		</repository>
-		
+
 		<repository>
 			<id>MAVEN REPO</id>
 			<name>MAVEN Repository</name>
 			<url>http://uk.maven.org/maven2</url>
 		</repository>
-		
+
 		<repository>
 			<id>CODEHOUSE REPO</id>
 			<name>CODEHOUSE Repository</name>
 			<url>http://repository.codehaus.org/</url>
 		</repository>
-		
+
 		<repository>
 			<id>org.springframework.maven.milestone</id>
 			<name>Spring Maven Milestone Repository</name>
@@ -84,11 +86,11 @@
 			</snapshots>
 		</repository>
 		<repository>
-        <id>appfuse-releases</id>
-        <name>AppFuse Releases</name>
-        <url>https://oss.sonatype.org/content/repositories/appfuse-releases</url>
-      </repository>
-	  <repository>
+			<id>appfuse-releases</id>
+			<name>AppFuse Releases</name>
+			<url>https://oss.sonatype.org/content/repositories/appfuse-releases</url>
+		</repository>
+		<repository>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
@@ -106,18 +108,6 @@
 			<name>Java.net Repository for Maven 2</name>
 			<url>http://download.java.net/maven/2/</url>
 			<layout>default</layout>
-		</repository>
-		<repository>
-			<snapshots>
-			</snapshots>
-			<id>maven-repository2.dev.java.net</id>
-			<name>Java.net Repository for Maven 2</name>
-			<url>http://download.java.net/maven/2</url>
-		</repository>
-		<repository>
-			<id>repository.jboss.org</id>
-			<name>Jboss Repository for Maven</name>
-			<url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
 		</repository>
 	</repositories>
 
