@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="template.xhtml">
+	
+	<ui:define name="head">
+		<style type="text/css">
+			.label {
+				width:20%;
+				padding:2px;
+			}
+
+			.value {
+				width:80%;
+				padding:2px;
+			}
+			
+			.grid {
+				width:100%;
+			}
+		</style>
+	</ui:define>
+	
+  <ui:define name="content">
+		
+		<h:form prependId="false">
+			
+			<p:panel id="panel" header="New Movie">
+				<p:growl showDetail="true"/>
+				
+				<h:panelGrid columns="2"  columnClasses="label,value" styleClass="grid">
+					<h:outputLabel for="title" value="Title" />
+					<h:inputText id="title" value="#{createMovie.movie.title}" required="true" requiredMessage="Title is required dude" validatorMessage="Max length is 10">
+						<f:validateLength maximum="10" />
+					</h:inputText>
+					
+					<h:outputLabel for="discs" value="Number of Discs" />
+					<h:inputText id="discs" value="#{createMovie.movie.discs}" required="true" requiredMessage="Number of discs is required" 
+								converterMessage="Only numbers dude" validatorMessage="Max length is 2">
+						<f:validateLength maximum="2" />
+					</h:inputText>
+					
+					<h:outputLabel for="format" value="Format" />
+					<h:selectOneMenu id="format" value="#{createMovie.movie.format}">
+						<f:selectItem itemLabel="DVD" itemValue="DVD" />
+						<f:selectItem itemLabel="BLU-RAY" itemValue="BLURAY" />
+					</h:selectOneMenu>
+					
+					<h:outputLabel for="description" value="Description" />
+					<h:inputTextarea id="description" value="#{createMovie.movie.description}" cols="50" rows="5" validatorMessage="Max length is 25">
+						<f:validateLength maximum="25" />
+					</h:inputTextarea>
+					
+					
+					<h:outputText />
+					<h:panelGroup>
+						<h:panelGrid columns="2">
+							<p:commandButton value="Reset" type="reset" />
+							<p:commandButton value="Save" actionListener="#{createMovie.save}" async="true" update="panel">
+								<p:confirmDialog yesLabel="Just save it" noLabel="Hmm, nope" 
+									message="Seriously dude, are you sure?" 
+									header="Confirm :)" severity="warn" fixedCenter="true" draggable="false"/>
+							</p:commandButton>
+						</h:panelGrid>
+					</h:panelGroup>
+					
+				</h:panelGrid>
+			</p:panel>
+
+		</h:form>
+		
+  </ui:define>
+  
+</ui:composition>
