@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.pccsoft</groupId>
+	<artifactId>pccsys-sql</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<name>PCCSys sql</name>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sql-maven-plugin</artifactId>
+				<version>1.5</version>
+				<!-- 
+					If a jar is not available from a public repository (for example, Oracle JDBC jars), 
+					then you can get Maven to manually install a copy of the jar in the local repository. 
+					To manually deploy the Oracle JDBC driver to your local repository type the following:
+					
+					mvn install:install-file -Dfile={ORACLE_HOME}/jdbc/lib/ojdbc6.jar -Dpackaging=jar\
+					-DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.1.0
+					
+					where {ORACLE_HOME} is the path to the Oracle Database installation.
+					
+					You can then reference the the jar via a dependency declaration like the following:
+					
+					<dependency>
+					<groupId>com.oracle</groupId>
+					<artifactId>ojdbc6</artifactId>
+					<version>11.1.0</version>
+					</dependency>
+				-->
+				<dependencies>
+					<!-- specify the dependent jdbc driver here -->
+					<dependency>
+						<groupId>com.oracle</groupId>
+						<artifactId>ojdbc6</artifactId>
+						<version>11.1.0</version>
+					</dependency>
+				</dependencies>
+
+				<!-- common configuration shared by all executions -->
+				<configuration>
+					<driver>oracle.jdbc.OracleDriver</driver>
+					<url>jdbc:oracle:thin:@//localhost:1521/pccsys</url>
+					<username>system</username>
+					<password>sys</password>
+					<settingsKey>sensibleKey</settingsKey>
+					<onError>continue</onError>
+					<skip>false</skip>
+				</configuration>
+
+				<executions>
+					<execution>
+						<id>drop-database</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<autocommit>true</autocommit>
+							<srcFiles>
+								<srcFile>src/main/sql/uninstall/uninstall-pccsys.sql</srcFile>
+							</srcFiles>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>create-schema</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<autocommit>true</autocommit>
+							<srcFiles>
+								<srcFile>src/main/sql/install/install-pccsys.sql</srcFile>
+							</srcFiles>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>create-module-data</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<orderFile>ascending</orderFile>
+							<fileset>
+								<basedir>${basedir}</basedir>
+								<includes>
+									<include>src/main/sql/data/module-data.sql</include>
+								</includes>
+							</fileset>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>create-qa-data</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<orderFile>ascending</orderFile>
+							<fileset>
+								<basedir>${basedir}</basedir>
+								<includes>
+									<include>src/main/sql/data/qa-data.sql</include>
+								</includes>
+							</fileset>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
