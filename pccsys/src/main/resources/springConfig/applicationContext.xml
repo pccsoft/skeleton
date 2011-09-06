@@ -1,56 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<!-- Root Context: defines shared resources visible to all other web components -->
-	<!--  <context:component-scan base-package="com.pccsoft" />
-	<import resource="db.xml" />-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
-	<context:component-scan base-package="org.primefaces.examples.moviecollector" />
-	
-	
-<!--	<tx:annotation-driven transaction-manager="txManager"/>-->
-	
-<!--	<bean id="entityManagerFactory"  -->
-<!--	      class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">  -->
-<!--         <property name="persistenceUnitName" value="prime-moviecollector"/>  -->
-<!--         <property name="dataSource" ref="dataSource" />  -->
-<!--         <property name="jpaVendorAdapter">  -->
-<!--             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">  -->
-<!--                 <property name="databasePlatform" value="${database.target}"/>  -->
-<!--                 <property name="showSql" value="${database.showSql}" />  -->
-<!--                 <property name="generateDdl" value="${database.generateDdl}" />  -->
-<!--             </bean>  -->
-<!--         </property>  -->
-<!--    </bean>  -->
-<!--	-->
-<!--	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" destroy-method="close">-->
-<!--        <property name="driverClassName" value="${database.driver}"/>-->
-<!--        <property name="url" value="${database.url}"/>-->
-<!--        <property name="username" value="${database.username}"/>-->
-<!--        <property name="password" value="${database.password}"/>-->
-<!--    </bean>-->
-<!---->
-<!--	<bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">-->
-<!--		<property name="entityManagerFactory" ref="entityManagerFactory" />-->
-<!--	</bean>-->
-	
-<!--	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>-->
-<!--	-->
-<!--	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />-->
+    <context:component-scan base-package="org.primefaces.examples.moviecollector"/>
 
-	
-<!--	<security:http auto-config='true'>-->
-<!--    	<security:intercept-url pattern="/**" access="ROLE_USER" />-->
-<!--    	<security:concurrent-session-control max-sessions="1"/>-->
-<!--    	<security:logout logout-url="/logout" logout-success-url="/"/>-->
-<!--  	</security:http>-->
-<!--  	-->
-<!--  	<security:authentication-provider>-->
-<!--    	<security:user-service properties="classpath:users.properties">-->
-<!--      	</security:user-service>-->
-<!--  	</security:authentication-provider>-->
+    <!-- Load in application properties reference -->
+    <bean id="applicationProperties"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:application.properties"/>
+    </bean>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="initialSize" value="${jdbc.initialSize}"/>
+        <property name="maxActive" value="${jdbc.imaxSize}"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mappingResources">
+            <list>
+                <value>classpath*:/hibernateMappingFiles/*.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.cache.provider_class"
+                    >com.med.utilities.oscache.OSCacheProvider</prop>
+                <prop key="hibernate.cache.use_second_level_cache">false</prop>
+                <prop key="hibernate.cache.use_query_cache">false</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="transactionManager"
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource">
+            <ref bean="dataSource"/>
+        </property>
+    </bean>
+
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+
+
 </beans>
