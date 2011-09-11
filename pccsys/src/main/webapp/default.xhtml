@@ -1,81 +1,131 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      >
-    <h:head>
-    	<h:outputStylesheet library="css" name="table-style.css"  />
-    </h:head>
- 
-    <h:body>
- 
-    	<h1>JSF 2.0 + Spring + Hibernate Example</h1>
- 
- 		<h:dataTable value="#{customer.getCustomerList()}" var="c"
-    			styleClass="order-table"
-    			headerClass="order-table-header"
-    			rowClasses="order-table-odd-row,order-table-even-row"
-    		>
- 
-    		<h:column>
-    			<f:facet name="header">
-    				Customer ID
-    			</f:facet>
-    				#{c.customerId}
-    		</h:column>
- 
-    		<h:column>
-    			<f:facet name="header">
-    				Name
-				</f:facet>
-    				#{c.name}
-    		</h:column>
- 
- 			<h:column>
-    			<f:facet name="header">
-    				Address
-				</f:facet>
-    				#{c.address}
-    		</h:column>
-    		
-    		<h:column>
-    			<f:facet name="header">
-    				Created Date
-				</f:facet>
-    				#{c.createdDate}
-    		</h:column>
-    		
-    	</h:dataTable>
- 		
- 		<h2>Add New Customer</h2>
- 		<h:form>
- 			
- 			<h:panelGrid columns="3">
-			
-				Name : 
-				<h:inputText id="name" value="#{customer.name}" 
-					size="20" required="true"
-					label="Name" >
-				</h:inputText>
-					
-				<h:message for="name" style="color:red" />
-			
-				Address : 
-				<h:inputTextarea id="address" value="#{customer.address}" 
-					cols="30" rows="10" required="true"
-					label="Address" >
-				</h:inputTextarea>
-					
-				<h:message for="address" style="color:red" />
-				
-			</h:panelGrid>
-			
-			<h:commandButton value="Submit" action="#{customer.addCustomer()}" />
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
 
- 		</h:form>
- 		
-    </h:body>
- 
+<f:view contentType="text/html">
+
+	<h:head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" type="text/css" href="style/default.css"
+			media="screen" />
+		<title>PrimeFaces - MovieCollector</title>
+		<ui:insert name="head"></ui:insert>
+		<style type="text/css">
+.new {
+	background: url(img/new.png) no-repeat;
+}
+
+.search {
+	background: url(img/search.png) no-repeat;
+}
+</style>
+	</h:head>
+
+	<h:body>
+		<h:form>
+			<!-- <p:dataTable var="car" value="#{tableBean.carsSmall}">
+				<p:column>
+					<f:facet name="header">
+                    Model
+            </f:facet>
+					<h:outputText value="#{car.model}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+                    Year
+            </f:facet>
+					<h:outputText value="#{car.year}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+                    Manufacturer
+            </f:facet>
+					<h:outputText value="#{car.manufacturer}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+                    Color
+            </f:facet>
+					<h:outputText value="#{car.color}" />
+				</p:column>
+			</p:dataTable> -->
+
+			<p:separator style="width:100%;height:15px" />
+
+			<p:dataTable var="c" value="#{customer.getCustomerList()}">
+				<p:column>
+					<f:facet name="header">
+                    Customer ID
+            </f:facet>
+					<h:outputText value="#{c.customerId}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+                    Name
+            </f:facet>
+					<h:outputText value="#{c.name}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+                    Address
+            </f:facet>
+					<h:outputText value="#{c.address}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+                    Created Date
+            </f:facet>
+					<h:outputText value="#{c.createdDate}" />
+				</p:column>
+			</p:dataTable>
+
+			<p:separator style="width:100%;height:15px" />
+
+			<p:panel id="panel" header="New Customer">
+				<p:growl showDetail="true" />
+
+				<h:panelGrid columns="2" columnClasses="label,value"
+					styleClass="grid">
+					<h:outputLabel for="name" value="Name :" />
+					<h:inputText id="name" value="#{customer.name}" required="true"
+						requiredMessage="Title is required dude"
+						validatorMessage="Max length is 10">
+						<f:validateLength maximum="10" />
+					</h:inputText>
+
+					<h:outputLabel for="address" value="Address :" />
+					<h:inputText id="address" value="#{customer.address}"
+						required="true" requiredMessage="Title is required dude"
+						validatorMessage="Max length is 10">
+						<f:validateLength maximum="10" />
+					</h:inputText>
+				</h:panelGrid>
+
+				<h:outputText />
+
+				<h:panelGroup>
+					<h:panelGrid columns="2">
+						<p:commandButton value="Reset" type="reset" />
+						<p:commandButton value="Save"
+							actionListener="#{customer.addCustomer()}" async="false"
+							update="panel">
+						</p:commandButton>
+					</h:panelGrid>
+				</h:panelGroup>
+			</p:panel>
+
+		</h:form>
+
+
+	</h:body>
+</f:view>
+
 </html>

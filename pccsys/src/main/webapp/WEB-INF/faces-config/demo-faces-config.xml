@@ -21,4 +21,10 @@
 		</managed-property>
 	</managed-bean>
 	
+	<managed-bean>
+		<managed-bean-name>tableBean</managed-bean-name>
+		<managed-bean-class>com.pccsys.demo.view.TableBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
 </faces-config>
