@@ -37,7 +37,7 @@
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
                 <prop key="hibernate.cache.provider_class"
-                    >com.med.utilities.oscache.OSCacheProvider</prop>
+                    >net.sf.ehcache.hibernate.EhCacheProvider</prop>
                 <prop key="hibernate.cache.use_second_level_cache">false</prop>
                 <prop key="hibernate.cache.use_query_cache">false</prop>
             </props>
